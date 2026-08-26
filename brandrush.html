@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrandRush — Build a Brand in 60 Minutes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --asphalt: #141414;
+    --asphalt-2: #1d1d1d;
+    --concrete: #e8e5dd;
+    --concrete-2: #f4f2ec;
+    --rush-orange: #ff5a1f;
+    --rush-orange-2: #ff7a3d;
+    --flag-yellow: #ffcc00;
+    --track-white: #f7f5ef;
+    --chalk: #9a968b;
+    --danger-line: repeating-linear-gradient(135deg, var(--flag-yellow) 0 14px, var(--asphalt) 14px 28px);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--concrete-2);
+    color:var(--asphalt);
+    font-family:'Archivo', sans-serif;
+    overflow-x:hidden;
+  }
+
+  .mono{font-family:'Space Mono', monospace;}
+
+  h1,h2,h3, .display{
+    font-family:'Archivo Black', sans-serif;
+    text-transform:uppercase;
+    letter-spacing:-0.01em;
+    line-height:0.92;
+  }
+
+  a{color:inherit;text-decoration:none;}
+
+  ::selection{background:var(--rush-orange);color:var(--track-white);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+
+  /* ---------- Hazard stripe divider ---------- */
+  .hazard{
+    height:16px;
+    background:var(--danger-line);
+    background-size:40px 40px;
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky;top:0;z-index:100;
+    background:var(--asphalt);
+    color:var(--track-white);
+    padding:16px 32px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:4px solid var(--rush-orange);
+  }
+  .nav-logo{
+    font-family:'Archivo Black', sans-serif;
+    font-size:22px;
+    text-transform:uppercase;
+    letter-spacing:-0.02em;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .nav-logo .dot{
+    width:10px;height:10px;border-radius:50%;
+    background:var(--rush-orange);
+    animation:blink 1.4s infinite steps(2);
+  }
+  @keyframes blink{50%{opacity:0.15;}}
+  .nav-links{display:flex;gap:32px;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;}
+  .nav-links a{opacity:0.75;transition:opacity 0.2s;}
+  .nav-links a:hover{opacity:1;}
+  .nav-cta{
+    background:var(--rush-orange);
+    color:var(--asphalt);
+    padding:10px 20px;
+    font-weight:800;
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    border:2px solid var(--rush-orange);
+    transition:all 0.2s;
+  }
+  .nav-cta:hover{background:transparent;color:var(--rush-orange);}
+  .nav-mobile-hide{display:flex;}
+  @media (max-width:820px){
+    .nav-mobile-hide{display:none;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    background:var(--asphalt);
+    color:var(--track-white);
+    padding:100px 32px 70px;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+      linear-gradient(var(--asphalt-2) 1px, transparent 1px),
+      linear-gradient(90deg, var(--asphalt-2) 1px, transparent 1px);
+    background-size:64px 64px;
+    opacity:0.4;
+    pointer-events:none;
+  }
+  .hero-inner{
+    position:relative;
+    max-width:1180px;
+    margin:0 auto;
+  }
+  .stopwatch{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:var(--asphalt-2);
+    border:1px solid #333;
+    padding:8px 16px;
+    font-size:13px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    margin-bottom:36px;
+    color:var(--flag-yellow);
+  }
+  .stopwatch #clock{
+    font-size:15px;
+    color:var(--rush-orange-2);
+    font-weight:700;
+  }
+
+  .hero h1{
+    font-size:clamp(48px, 9vw, 128px);
+    color:var(--track-white);
+  }
+  .hero h1 .accent{
+    color:var(--rush-orange);
+    -webkit-text-stroke: 2px var(--rush-orange);
+  }
+  .hero h1 .outline{
+    -webkit-text-stroke:2px var(--track-white);
+    color:transparent;
+  }
+  @media (max-width:600px){
+    .hero h1 .outline{-webkit-text-stroke:1.4px var(--track-white);}
+  }
+
+  .hero-sub{
+    max-width:560px;
+    font-size:18px;
+    line-height:1.55;
+    color:#c9c6bd;
+    margin-top:28px;
+    font-weight:500;
+  }
+  .hero-sub strong{color:var(--track-white);}
+
+  .hero-ctas{
+    display:flex;
+    gap:16px;
+    margin-top:44px;
+    flex-wrap:wrap;
+  }
+  .btn-primary{
+    background:var(--rush-orange);
+    color:var(--asphalt);
+    padding:18px 32px;
+    font-weight:800;
+    font-size:15px;
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+    border:2px solid var(--rush-orange);
+    transition:transform 0.15s, background 0.2s, color 0.2s;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+  }
+  .btn-primary:hover{transform:translate(-3px,-3px);box-shadow:5px 5px 0 var(--flag-yellow);}
+  .btn-ghost{
+    background:transparent;
+    color:var(--track-white);
+    padding:18px 32px;
+    font-weight:800;
+    font-size:15px;
+    text-transform:uppercase;
+    letter-spacing:0.03em;
+    border:2px solid #444;
+    transition:border-color 0.2s, transform 0.15s;
+  }
+  .btn-ghost:hover{border-color:var(--track-white);transform:translate(-3px,-3px);}
+
+  .hero-stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1px;
+    background:#2a2a2a;
+    margin-top:80px;
+    border:1px solid #2a2a2a;
+  }
+  .hero-stat{
+    background:var(--asphalt);
+    padding:24px 20px;
+  }
+  .hero-stat .num{
+    font-family:'Archivo Black';
+    font-size:clamp(26px,4vw,40px);
+    color:var(--rush-orange-2);
+  }
+  .hero-stat .label{
+    font-family:'Space Mono';
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--chalk);
+    margin-top:6px;
+  }
+  @media (max-width:700px){
+    .hero-stats{grid-template-columns:repeat(2,1fr);}
+  }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:100px 32px;}
+  .section-inner{max-width:1180px;margin:0 auto;}
+  .eyebrow{
+    font-family:'Space Mono';
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.15em;
+    color:var(--rush-orange);
+    font-weight:700;
+    margin-bottom:14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:24px;height:2px;
+    background:var(--rush-orange);
+  }
+  .section-title{
+    font-size:clamp(32px,5vw,56px);
+    margin-bottom:20px;
+  }
+  .section-desc{
+    max-width:600px;
+    font-size:17px;
+    line-height:1.6;
+    color:#4a4a4a;
+    font-weight:500;
+  }
+
+  /* ---------- HOW IT WORKS: race timeline ---------- */
+  .how{background:var(--concrete-2);}
+  .timeline{
+    margin-top:64px;
+    position:relative;
+  }
+  .timeline-track{
+    position:absolute;
+    left:0;right:0;top:38px;
+    height:6px;
+    background:repeating-linear-gradient(90deg, var(--asphalt) 0 24px, transparent 24px 44px);
+    z-index:0;
+  }
+  @media (max-width:900px){.timeline-track{display:none;}}
+  .timeline-steps{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:24px;
+    position:relative;
+    z-index:1;
+  }
+  @media (max-width:900px){.timeline-steps{grid-template-columns:1fr;}}
+  .tstep{
+    background:var(--track-white);
+    border:2px solid var(--asphalt);
+    padding:28px 22px;
+    position:relative;
+  }
+  .tstep .clockmark{
+    width:76px;height:76px;
+    border-radius:50%;
+    background:var(--asphalt);
+    color:var(--flag-yellow);
+    font-family:'Space Mono';
+    font-weight:700;
+    font-size:15px;
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 20px;
+    border:3px solid var(--rush-orange);
+  }
+  .tstep h3{font-size:19px;margin-bottom:10px;}
+  .tstep p{font-size:14px;color:#555;line-height:1.55;font-weight:500;}
+
+  /* ---------- HOTWHEELS RULE SECTION ---------- */
+  .hwrule{
+    background:var(--asphalt);
+    color:var(--track-white);
+    position:relative;
+  }
+  .hwrule::before{
+    content:"";
+    position:absolute;top:0;left:0;right:0;height:16px;
+    background:var(--danger-line);
+    background-size:40px 40px;
+  }
+  .hwrule-inner{
+    max-width:1180px;margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:64px;
+    align-items:center;
+  }
+  @media (max-width:900px){.hwrule-inner{grid-template-columns:1fr;gap:48px;}}
+
+  .hwrule h2{font-size:clamp(30px,4.5vw,50px);color:var(--track-white);}
+  .hwrule .section-desc{color:#c9c6bd;margin-top:20px;}
+
+  .car-track{
+    position:relative;
+    padding:20px 0;
+  }
+  .lane{
+    height:56px;
+    background:var(--asphalt-2);
+    border-top:2px dashed #3a3a3a;
+    border-bottom:2px dashed #3a3a3a;
+    position:relative;
+    margin-bottom:6px;
+    overflow:hidden;
+  }
+  .lane .car{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:28px;
+    animation:drive 5s linear infinite;
+  }
+  @keyframes drive{
+    from{left:-40px;}
+    to{left:105%;}
+  }
+  .lane:nth-child(1) .car{animation-duration:4.2s;}
+  .lane:nth-child(2) .car{animation-duration:5.6s;animation-delay:0.6s;}
+  .lane:nth-child(3) .car{animation-duration:4.9s;animation-delay:1.3s;}
+
+  .rule-list{
+    margin-top:32px;
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+  }
+  .rule-item{
+    display:flex;
+    gap:16px;
+    align-items:flex-start;
+  }
+  .rule-item .icon{
+    font-size:22px;
+    flex-shrink:0;
+  }
+  .rule-item p{font-size:15px;color:#c9c6bd;line-height:1.5;font-weight:500;}
+  .rule-item strong{color:var(--track-white);}
+
+  /* ---------- DELIVERABLES ---------- */
+  .deliverables{background:var(--concrete-2);}
+  .grid-deliv{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:2px;
+    background:var(--asphalt);
+    margin-top:56px;
+    border:2px solid var(--asphalt);
+  }
+  @media (max-width:820px){.grid-deliv{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:560px){.grid-deliv{grid-template-columns:1fr;}}
+  .dcard{
+    background:var(--track-white);
+    padding:32px 26px;
+    transition:background 0.2s;
+  }
+  .dcard:hover{background:var(--flag-yellow);}
+  .dcard .idx{
+    font-family:'Space Mono';
+    font-size:12px;
+    color:var(--rush-orange);
+    font-weight:700;
+  }
+  .dcard h3{
+    font-size:20px;
+    margin-top:14px;
+    margin-bottom:8px;
+  }
+  .dcard p{font-size:14px;color:#555;font-weight:500;line-height:1.5;}
+
+  /* ---------- SCOREBOARD ---------- */
+  .scoreboard{
+    background:var(--asphalt);
+    color:var(--track-white);
+  }
+  .board{
+    margin-top:56px;
+    border:2px solid #333;
+  }
+  .board-row{
+    display:grid;
+    grid-template-columns:60px 1fr 140px;
+    align-items:center;
+    padding:18px 24px;
+    border-bottom:1px solid #2a2a2a;
+    gap:16px;
+  }
+  .board-row:last-child{border-bottom:none;}
+  .board-row.head{
+    font-family:'Space Mono';
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--chalk);
+    padding:12px 24px;
+  }
+  .board-rank{
+    font-family:'Archivo Black';
+    font-size:22px;
+    color:var(--rush-orange-2);
+  }
+  .board-name{
+    font-weight:800;
+    font-size:16px;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+  }
+  .board-name span{
+    display:block;
+    font-family:'Space Mono';
+    font-size:12px;
+    color:var(--chalk);
+    text-transform:none;
+    font-weight:400;
+    margin-top:3px;
+    letter-spacing:0;
+  }
+  .board-cars{
+    display:flex;
+    gap:4px;
+    font-size:16px;
+    justify-content:flex-end;
+  }
+  @media (max-width:600px){
+    .board-row{grid-template-columns:40px 1fr 90px;padding:14px 16px;}
+    .board-cars{font-size:13px;}
+  }
+
+  /* ---------- HOST/JOIN CTA ---------- */
+  .join{
+    background:var(--rush-orange);
+    color:var(--asphalt);
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .join::before, .join::after{
+    content:"";
+    position:absolute;left:0;right:0;height:16px;
+    background:var(--danger-line);
+    background-size:40px 40px;
+  }
+  .join::before{top:0;}
+  .join::after{bottom:0;}
+  .join-inner{max-width:760px;margin:0 auto;padding:30px 0;}
+  .join h2{
+    font-size:clamp(32px,6vw,64px);
+    color:var(--asphalt);
+  }
+  .join p{
+    font-size:17px;
+    max-width:520px;
+    margin:22px auto 40px;
+    font-weight:600;
+    line-height:1.5;
+  }
+  .join .btn-primary{
+    background:var(--asphalt);
+    border-color:var(--asphalt);
+    color:var(--track-white);
+  }
+  .join .btn-primary:hover{
+    background:transparent;
+    color:var(--asphalt);
+    box-shadow:5px 5px 0 var(--asphalt);
+  }
+  .join .btn-ghost{
+    border-color:var(--asphalt);
+    color:var(--asphalt);
+  }
+  .join .btn-ghost:hover{border-color:var(--asphalt);}
+  .join-ctas{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+
+  /* ---------- FAQ ---------- */
+  .faq{background:var(--concrete-2);}
+  .faq-list{max-width:820px;margin:56px auto 0;}
+  .faq-item{
+    border-bottom:2px solid var(--asphalt);
+    padding:24px 0;
+    cursor:pointer;
+  }
+  .faq-item summary{
+    list-style:none;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-weight:800;
+    font-size:17px;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item .plus{
+    font-family:'Space Mono';
+    font-size:22px;
+    color:var(--rush-orange);
+    transition:transform 0.25s;
+    flex-shrink:0;
+    margin-left:20px;
+  }
+  .faq-item[open] .plus{transform:rotate(45deg);}
+  .faq-item p{
+    margin-top:16px;
+    font-size:15px;
+    color:#4a4a4a;
+    line-height:1.6;
+    font-weight:500;
+    max-width:640px;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:var(--asphalt);
+    color:var(--chalk);
+    padding:56px 32px 32px;
+  }
+  .footer-inner{
+    max-width:1180px;margin:0 auto;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:32px;
+    padding-bottom:32px;
+    border-bottom:1px solid #2a2a2a;
+  }
+  .footer-brand{
+    font-family:'Archivo Black';
+    font-size:22px;
+    color:var(--track-white);
+    text-transform:uppercase;
+  }
+  .footer-brand p{
+    font-family:'Space Mono';
+    font-size:13px;
+    color:var(--chalk);
+    margin-top:10px;
+    max-width:280px;
+    font-weight:400;
+    text-transform:none;
+    letter-spacing:0;
+  }
+  .footer-cols{display:flex;gap:64px;flex-wrap:wrap;}
+  .footer-col h4{
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    color:var(--track-white);
+    margin-bottom:16px;
+    font-family:'Space Mono';
+  }
+  .footer-col a{
+    display:block;
+    font-size:14px;
+    margin-bottom:10px;
+    color:var(--chalk);
+    transition:color 0.2s;
+  }
+  .footer-col a:hover{color:var(--rush-orange-2);}
+  .footer-bottom{
+    max-width:1180px;margin:0 auto;
+    padding-top:24px;
+    font-family:'Space Mono';
+    font-size:12px;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><span class="dot"></span>BrandRush</div>
+  <div class="nav-links nav-mobile-hide">
+    <a href="#how">How it works</a>
+    <a href="#hotwheels">The Hotwheels Rule</a>
+    <a href="#board">Leaderboard</a>
+    <a href="#faq">FAQ</a>
+  </div>
+  <a href="#join" class="nav-cta">Get Rushed</a>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="stopwatch mono">
+      ⏱ LIVE FORMAT &nbsp;—&nbsp; <span id="clock">60:00</span> ON THE CLOCK
+    </div>
+    <h1>
+      BUILD A<br>
+      <span class="accent">BRAND</span> IN<br>
+      <span class="outline">60 MINUTES.</span>
+    </h1>
+    <p class="hero-sub">
+      We stop strangers on the street and give them <strong>60 minutes</strong> to invent a brand from nothing — name, logo, launch video, website, Instagram, all of it. No pitch decks. No portfolios. Just a timer, a camera, and whoever's brave enough to say yes.
+    </p>
+    <div class="hero-ctas">
+      <a href="#join" class="btn-primary">Join the Next Rush →</a>
+      <a href="#how" class="btn-ghost">See How It Works</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="num">60</div>
+        <div class="label">Minutes on the clock</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">6</div>
+        <div class="label">Deliverables required</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">0</div>
+        <div class="label">Warning before we approach you</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">∞</div>
+        <div class="label">Hotwheels up for grabs</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="hazard"></div>
+
+<section class="how" id="how">
+  <div class="section-inner">
+    <div class="eyebrow">The Format</div>
+    <h2 class="section-title">This isn't a workshop.<br>It's an ambush.</h2>
+    <p class="section-desc">A BrandRush crew shows up somewhere with people — a market, a mall, a college gate — and pulls a random stranger into the game. From that second, the clock is theirs.</p>
+
+    <div class="timeline">
+      <div class="timeline-track"></div>
+      <div class="timeline-steps">
+        <div class="tstep">
+          <div class="clockmark">0:00</div>
+          <h3>The Grab</h3>
+          <p>We approach a random person on the street and ask one question: "Got 60 minutes to build a brand?" If they say yes, the timer starts immediately.</p>
+        </div>
+        <div class="tstep">
+          <div class="clockmark">0:15</div>
+          <h3>The Concept</h3>
+          <p>Name, niche, and identity, decided on the spot. No overthinking allowed — the clock doesn't care about your creative block.</p>
+        </div>
+        <div class="tstep">
+          <div class="clockmark">0:40</div>
+          <h3>The Build</h3>
+          <p>Logo, website, Instagram page, and launch video get built live, in public, with people watching over their shoulder.</p>
+        </div>
+        <div class="tstep">
+          <div class="clockmark">1:00</div>
+          <h3>The Launch</h3>
+          <p>At zero, whatever exists goes live. Real page, real link, real brand — shipped in front of a crowd that just watched it happen.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hwrule" id="hotwheels">
+  <div class="hwrule-inner">
+    <div>
+      <div class="eyebrow" style="color:var(--flag-yellow);">The Hotwheels Rule</div>
+      <h2>Chaos gets<br>rewarded.</h2>
+      <p class="section-desc">Every time a contestant does something genuinely unhinged — pitches a stranger for feedback, films the launch video mid-traffic, renames the brand three times, talks a shopkeeper into a cameo — the crew hands them a Hotwheels car on the spot.</p>
+
+      <div class="rule-list">
+        <div class="rule-item">
+          <span class="icon">🏎️</span>
+          <p><strong>One car, one moment.</strong> No cars for good design. Cars are only for doing something bold, weird, or unplanned in the middle of the build.</p>
+        </div>
+        <div class="rule-item">
+          <span class="icon">📸</span>
+          <p><strong>Filmed, not judged later.</strong> The crew hands the car out live, on camera, the second it happens — there's no backroom scoring.</p>
+        </div>
+        <div class="rule-item">
+          <span class="icon">🏁</span>
+          <p><strong>Most cars wins.</strong> At the end of the day's rushes, whoever's collected the most Hotwheels takes the win — not whoever has the "best" brand.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="car-track">
+      <div class="lane"><span class="car">🏎️</span></div>
+      <div class="lane"><span class="car">🚗</span></div>
+      <div class="lane"><span class="car">🚙</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="deliverables" id="deliverables">
+  <div class="section-inner">
+    <div class="eyebrow">The Checklist</div>
+    <h2 class="section-title">One hour. Six things.<br>No excuses.</h2>
+    <p class="section-desc">Whatever the contestant hasn't shipped by zero, doesn't exist. This is the full list they're racing against.</p>
+
+    <div class="grid-deliv">
+      <div class="dcard">
+        <div class="idx mono">01 / NAME</div>
+        <h3>Brand Name</h3>
+        <p>Picked, said out loud, and never changed again (well — mostly).</p>
+      </div>
+      <div class="dcard">
+        <div class="idx mono">02 / MARK</div>
+        <h3>Logo</h3>
+        <p>Designed from scratch, no stock templates, no AI logo generators.</p>
+      </div>
+      <div class="dcard">
+        <div class="idx mono">03 / SITE</div>
+        <h3>Website</h3>
+        <p>Live, on a real URL, before the clock hits zero.</p>
+      </div>
+      <div class="dcard">
+        <div class="idx mono">04 / SOCIAL</div>
+        <h3>Instagram Page</h3>
+        <p>Bio, grid, and a first post — public, not a draft.</p>
+      </div>
+      <div class="dcard">
+        <div class="idx mono">05 / FILM</div>
+        <h3>Launch Video</h3>
+        <p>Shot and edited on a phone, on the street, in the hour.</p>
+      </div>
+      <div class="dcard">
+        <div class="idx mono">06 / SHIP</div>
+        <h3>Public Launch</h3>
+        <p>Everything goes out to real strangers before the timer dies.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="scoreboard" id="board">
+  <div class="section-inner">
+    <div class="eyebrow" style="color:var(--flag-yellow);">This Week's Rush</div>
+    <h2 class="section-title" style="color:var(--track-white);">Leaderboard</h2>
+    <p class="section-desc" style="color:#c9c6bd;">Ranked by Hotwheels collected, not brand quality. That's the whole point.</p>
+
+    <div class="board">
+      <div class="board-row head">
+        <div>RANK</div>
+        <div>CONTESTANT / BRAND BUILT</div>
+        <div style="text-align:right;">HOTWHEELS</div>
+      </div>
+      <div class="board-row">
+        <div class="board-rank">01</div>
+        <div class="board-name">Priya, 24 <span>Built "Chaiwala Corp" outside a metro station</span></div>
+        <div class="board-cars">🏎️🏎️🏎️🏎️🏎️🏎️</div>
+      </div>
+      <div class="board-row">
+        <div class="board-rank">02</div>
+        <div class="board-name">Arjun, 19 <span>Built "Loose Change" on a college footpath</span></div>
+        <div class="board-cars">🏎️🏎️🏎️🏎️🏎️</div>
+      </div>
+      <div class="board-row">
+        <div class="board-rank">03</div>
+        <div class="board-name">Fatima, 31 <span>Built "Auto Aunty" at a rickshaw stand</span></div>
+        <div class="board-cars">🏎️🏎️🏎️🏎️</div>
+      </div>
+      <div class="board-row">
+        <div class="board-rank">04</div>
+        <div class="board-name">Rohan, 22 <span>Built "Sunday Standby" in a parking lot</span></div>
+        <div class="board-cars">🏎️🏎️🏎️</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="join" id="join">
+  <div class="join-inner">
+    <div class="eyebrow" style="justify-content:center;color:var(--asphalt);">No Sign-ups. No Warning.</div>
+    <h2>You could be<br>next.</h2>
+    <p>Follow us to know which street we're hitting next — or tell us where to find you. If you're there when the crew shows up, the only application is saying yes.</p>
+    <div class="join-ctas">
+      <a href="#" class="btn-primary">Tell Us Where You'll Be</a>
+      <a href="#" class="btn-ghost">Follow the Next Rush</a>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="section-inner">
+    <div class="eyebrow">Before You Ask</div>
+    <h2 class="section-title">Common questions<br>from strangers.</h2>
+
+    <div class="faq-list">
+      <details class="faq-item" open>
+        <summary>Do I need any design or business experience?<span class="plus">+</span></summary>
+        <p>No. Most contestants have never built a brand before — that's the point. BrandRush is built for people who'd normally never call themselves "creative."</p>
+      </details>
+      <details class="faq-item">
+        <summary>What if I say no when the crew approaches me?<span class="plus">+</span></summary>
+        <p>Totally fine — no pressure, no follow-up. We move to the next person. If you change your mind later, just flag down the crew before we leave the area.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Do I need my own laptop or phone?<span class="plus">+</span></summary>
+        <p>A phone helps for the video and Instagram, but the crew always carries a laptop for the website and logo work, so you can start with nothing in hand.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What actually happens to the brand after the hour ends?<span class="plus">+</span></summary>
+        <p>It's yours. The website, the handle, the video — all of it stays live and belongs to you. Some contestants keep running theirs for real after the Rush ends.</p>
+      </details>
+      <details class="faq-item">
+        <summary>How do you decide who gets a Hotwheels car?<span class="plus">+</span></summary>
+        <p>The crew hands one out the moment something wild happens — no pre-set checklist, no scoring after the fact. It has to be earned live, on camera.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can I bring a friend to compete alongside me?<span class="plus">+</span></summary>
+        <p>Yes — some of our best Rushes have been duos. Just know the Hotwheels get counted per person, so you might end up racing each other too.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      BrandRush
+      <p>Street-level branding competitions. One hour, one stranger, one brand — built live, in public, for keeps.</p>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h4>Rush</h4>
+        <a href="#how">How it works</a>
+        <a href="#hotwheels">Hotwheels rule</a>
+        <a href="#deliverables">Checklist</a>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <a href="#board">Leaderboard</a>
+        <a href="#faq">FAQ</a>
+        <a href="#join">Join a Rush</a>
+      </div>
+      <div class="footer-col">
+        <h4>Follow</h4>
+        <a href="#">Instagram</a>
+        <a href="#">TikTok</a>
+        <a href="#">YouTube</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom mono">
+    <span>© 2026 BrandRush. Built on the street, not in a boardroom.</span>
+    <span>Nagpur · Mumbai · Pune · Next stop: yours.</span>
+  </div>
+</footer>
+
+<script>
+  // Countdown stopwatch in hero — loops 60:00 to 0:00
+  const clockEl = document.getElementById('clock');
+  let totalSeconds = 60 * 60;
+  function formatTime(s){
+    const m = Math.floor(s/60).toString().padStart(2,'0');
+    const sec = Math.floor(s%60).toString().padStart(2,'0');
+    return m + ':' + sec;
+  }
+  function tick(){
+    totalSeconds -= 1;
+    if(totalSeconds < 0) totalSeconds = 60*60;
+    clockEl.textContent = formatTime(totalSeconds);
+  }
+  setInterval(tick, 1000);
+</script>
+
+</body>
+</html>
